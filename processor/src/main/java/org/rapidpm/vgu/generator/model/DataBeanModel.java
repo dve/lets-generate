@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.element.TypeElement;
 import org.rapidpm.vgu.generator.annotation.DataBeanType;
@@ -86,6 +87,11 @@ public class DataBeanModel {
 
   public Set<PropertyModel> getFilterProperties() {
     return filterProperties;
+  }
+
+  public Set<PropertyModel> getCustomFilterProperties() {
+    return filterProperties.stream().filter(filterProperty -> !properties.contains(filterProperty))
+        .collect(Collectors.toSet());
   }
 
   public void setClazz(Class<?> clazz) {

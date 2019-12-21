@@ -29,6 +29,7 @@ import com.squareup.javapoet.TypeSpec;
 import com.squareup.javapoet.WildcardTypeName;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.Composite;
+import com.vaadin.flow.component.HasComponents;
 import com.vaadin.flow.component.HasSize;
 import com.vaadin.flow.component.HasValue;
 import com.vaadin.flow.component.HasValue.ValueChangeEvent;
@@ -58,7 +59,7 @@ public class VaadinGridGenerator extends AbstractVaadinCodeGenerator {
             .initializer("new $T($S)", ClassName.get(Text.class), "").build())
         .addField(FieldSpec.builder(Component.class, "customFilterLayout", PROTECTED).build())
         .addMethod(setBaseQueries(model)).addMethod(getContent())
-        .addMethod(updateCountLabelMethod()).addMethod(layoutCustomFilters());
+        .addMethod(updateCountLabelMethod()).addMethod(layoutCustomFilters(model));
 
     for (PropertyModel property : model.getProperties()) {
       builder.addField(columnType(model), columnName(property), PRIVATE);
@@ -81,11 +82,17 @@ public class VaadinGridGenerator extends AbstractVaadinCodeGenerator {
     writeClass(processingEnvironment.getFiler(), model, builder.build());
   }
 
-  private MethodSpec layoutCustomFilters() {
+  private MethodSpec layoutCustomFilters(DataBeanModel model) {
     MethodSpec.Builder builder =
         MethodSpec.methodBuilder("layoutCustomFilters").addModifiers(PROTECTED);
     builder.addStatement("this.customFilterLayout = new $T($L)",
         ClassName.get(VerticalLayout.class), "countLabel");
+    for (PropertyModel customFilterProperty : model.getCustomFilterProperties()) {
+      String filterComponentName = filterComponentName(customFilterProperty);
+      builder.addStatement("(($T) this.customFilterLayout).add($L)",
+          ClassName.get(HasComponents.class), filterComponentName);
+      builder.addStatement("this.grid.addFilter( $L)", filterComponentName);
+    }
     return builder.build();
   }
 

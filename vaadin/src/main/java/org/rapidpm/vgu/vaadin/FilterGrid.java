@@ -47,6 +47,10 @@ public class FilterGrid<T, F> extends Grid<T> implements HasLogger {
       filterRow = appendHeaderRow();
     }
     filterRow.getCell(column).setComponent(component);
+    addFilter(component);
+  }
+
+  public void addFilter(Component component) {
     if (component instanceof HasSize) {
       ((HasSize) component).setWidth("100%");
     }
