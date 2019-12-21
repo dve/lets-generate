@@ -46,7 +46,8 @@ public abstract class AbstractCodeGenerator implements CodeGenerator, HasLogger 
         filer.createSourceFile(appendSubPackage(model.getFqnNAme() + classSuffix(), packageSuffix))
             .openWriter()) {
       sourceFile.writeTo(writer);
-      logger().info("Wrote file: {}.{}", sourceFile.packageName, sourceFile.typeSpec.name);
+
+      logger().info("Wrote file: " + sourceFile.packageName + "." + sourceFile.typeSpec.name);
     }
   }
 
