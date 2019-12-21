@@ -21,6 +21,13 @@
 	<packaging>pom</packaging>
 	<name>Lets Generate :: Parent</name>
 	<inceptionYear>2019</inceptionYear>
+	<scm>
+		<url>https://github.com/vaadin-developer/lets-generate</url>
+		<connection>scm:git:git@github.com:vaadin-developer/lets-generate.git</connection>
+		<developerConnection>scm:git:git@github.com:vaadin-developer/lets-generate.git</developerConnection>
+		<tag>HEAD</tag>
+	</scm>
+	
 	<modules>
 		<module>processor</module>
 		<module>annotations</module>
