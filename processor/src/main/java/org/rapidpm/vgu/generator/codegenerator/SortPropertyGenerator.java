@@ -30,6 +30,7 @@ public class SortPropertyGenerator extends AbstractCodeGenerator {
   @Override
   public void writeCode(ProcessingEnvironment processingEnvironment, DataBeanModel model)
       throws IOException {
+    setProccesingEnviroment(processingEnvironment);
     if (!model.getSortProperties().isEmpty()) {
 
       Builder enumBuilder = TypeSpec.enumBuilder(enumName(model)).addModifiers(Modifier.PUBLIC);

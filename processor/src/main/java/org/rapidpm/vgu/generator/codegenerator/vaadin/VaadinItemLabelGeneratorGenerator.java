@@ -33,6 +33,7 @@ public class VaadinItemLabelGeneratorGenerator extends AbstractCodeGenerator {
   @Override
   public void writeCode(ProcessingEnvironment processingEnvironment, DataBeanModel model)
       throws IOException {
+    setProccesingEnviroment(processingEnvironment);
     TypeSpec comboBoxClass = TypeSpec.classBuilder(model.getName() + classSuffix())
         .addModifiers(Modifier.PUBLIC).addSuperinterface(ParameterizedTypeName
             .get(ClassName.get(ItemLabelGenerator.class), JPoetUtils.getBeanClassName(model)))

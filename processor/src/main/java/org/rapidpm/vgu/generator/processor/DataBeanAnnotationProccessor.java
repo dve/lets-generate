@@ -23,7 +23,6 @@ import javax.annotation.processing.SupportedSourceVersion;
 import javax.lang.model.SourceVersion;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.TypeElement;
-import org.rapidpm.dependencies.core.logger.HasLogger;
 import org.rapidpm.vgu.generator.annotation.DataBean;
 import org.rapidpm.vgu.generator.codegenerator.FilterGenerator;
 import org.rapidpm.vgu.generator.codegenerator.QueryInterfaceGenerator;
@@ -34,13 +33,11 @@ import com.google.auto.service.AutoService;
 
 @SupportedSourceVersion(SourceVersion.RELEASE_8)
 @AutoService(Processor.class)
-public class DataBeanAnnotationProccessor extends AbstractDataBeanProcessor implements HasLogger {
+public class DataBeanAnnotationProccessor extends AbstractDataBeanProcessor {
   @Override
   public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
     for (TypeElement annotation : annotations) {
       try {
-        System.out.println("HALLO " + annotation);
-        logger().info("Process anotation " + annotation);
         Set<? extends Element> annotatedElements = roundEnv.getElementsAnnotatedWith(annotation);
         for (Element e : annotatedElements) {
           logger().info("Process element " + e + " of type " + e.getClass().getName()
@@ -53,7 +50,7 @@ public class DataBeanAnnotationProccessor extends AbstractDataBeanProcessor impl
           write(typeElement, dataBeanModel);
         }
       } catch (Exception e) {
-        logger().severe("Failure proccessing", e);
+        logger().error("Failure proccessing", e);
         error("Failure proccessing dataBean", annotation, e);
       }
     }
@@ -78,7 +75,6 @@ public class DataBeanAnnotationProccessor extends AbstractDataBeanProcessor impl
       QueryInterfaceGenerator queryInterfaceGenerator = new QueryInterfaceGenerator();
       queryInterfaceGenerator.writeCode(processingEnv, dataBeanModel);
     } catch (IOException e1) {
-      logger().severe("Failrue writing code", e1);
       error("Failure writing code", typeElement, e1);
     }
   }

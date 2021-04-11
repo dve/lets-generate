@@ -32,6 +32,7 @@ public class VaadinComboBoxGenerator extends AbstractCodeGenerator {
   @Override
   public void writeCode(ProcessingEnvironment processingEnvironment, DataBeanModel model)
       throws IOException {
+    setProccesingEnviroment(processingEnvironment);
     TypeSpec comboBoxClass =
         TypeSpec.classBuilder(model.getName() + classSuffix()).addModifiers(Modifier.PUBLIC)
             .superclass(ParameterizedTypeName.get(ClassName.get(ComboBox.class),

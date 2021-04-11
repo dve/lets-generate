@@ -32,6 +32,7 @@ public class QueryInterfaceGenerator extends AbstractCodeGenerator {
   @Override
   public void writeCode(ProcessingEnvironment processingEnvironment, DataBeanModel model)
       throws IOException {
+    setProccesingEnviroment(processingEnvironment);
     TypeSpec baseQueriesInterface =
         TypeSpec.interfaceBuilder(model.getName() + classSuffix()).addModifiers(Modifier.PUBLIC)
             .addMethod(findMethod(model)).addMethod(countMethod(model)).build();

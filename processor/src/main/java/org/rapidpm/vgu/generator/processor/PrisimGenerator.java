@@ -15,21 +15,20 @@
  */
 package org.rapidpm.vgu.generator.processor;
 
+import org.mapstruct.tools.gem.GemDefinition;
 import org.rapidpm.vgu.generator.annotation.CustomFilter;
 import org.rapidpm.vgu.generator.annotation.DataBean;
 import org.rapidpm.vgu.generator.annotation.DisplayReadOnly;
 import org.rapidpm.vgu.generator.annotation.FilterProperty;
 import org.rapidpm.vgu.generator.annotation.SortProperty;
 import org.rapidpm.vgu.generator.annotation.VaadinDataBeans;
-import net.java.dev.hickory.prism.GeneratePrism;
-import net.java.dev.hickory.prism.GeneratePrisms;
 
-@GeneratePrisms({@GeneratePrism(value = DataBean.class, publicAccess = true),
-    @GeneratePrism(value = FilterProperty.class, publicAccess = true),
-    @GeneratePrism(value = SortProperty.class, publicAccess = true),
-    @GeneratePrism(value = CustomFilter.class, publicAccess = true),
-    @GeneratePrism(value = VaadinDataBeans.class, publicAccess = true),
-    @GeneratePrism(value = DisplayReadOnly.class, publicAccess = true)})
+@GemDefinition(value = DataBean.class)
+@GemDefinition(value = FilterProperty.class)
+@GemDefinition(value = SortProperty.class)
+@GemDefinition(value = CustomFilter.class)
+@GemDefinition(value = VaadinDataBeans.class)
+@GemDefinition(value = DisplayReadOnly.class)
 public class PrisimGenerator {
 
 }

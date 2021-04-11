@@ -37,6 +37,7 @@ public class FilterGenerator extends AbstractCodeGenerator {
   @Override
   public void writeCode(ProcessingEnvironment processingEnvironment, DataBeanModel model)
       throws IOException {
+    setProccesingEnviroment(processingEnvironment);
     TypeSpec filterClass =
         TypeSpec.classBuilder(model.getName() + classSuffix()).addModifiers(Modifier.PUBLIC)
             .addFields(model.getFilterProperties().stream()

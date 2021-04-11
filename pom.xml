@@ -10,11 +10,6 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<parent>
-		<groupId>org.rapidpm</groupId>
-		<artifactId>rapidpm-dependencies</artifactId>
-		<version>04.05.03-RPM</version>
-	</parent>
 	<groupId>net.vergien.lets-generate</groupId>
 	<artifactId>lets-generate-parent</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
@@ -33,7 +28,10 @@
 		<!--RapidPM -->
 		<rapidpm-dependencies.version>04.05.03-RPM</rapidpm-dependencies.version>
 		<vaadin.version>14.1.2</vaadin.version>
+		<tools.gem.version>1.0.0.Alpha2</tools.gem.version>
 		<m2e.apt.activation>jdt_apt</m2e.apt.activation>
+		<maven.compiler.target>1.8</maven.compiler.target>
+		<maven.compiler.source>1.8</maven.compiler.source>
 	</properties>
 	<repositories>
 		<repository>
@@ -41,6 +39,13 @@
 			<url>https://maven.vaadin.com/vaadin-prereleases/</url>
 		</repository>
 	</repositories>
+	<dependencies>
+		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter</artifactId>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
@@ -50,11 +55,65 @@
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
-			<!-- <dependency> <groupId>com.vaadin</groupId> <artifactId>vaadin-text-field-flow</artifactId> 
-				<version>1.4-SNAPSHOT</version> </dependency> -->
+			<dependency>
+				<groupId>org.junit</groupId>
+				<artifactId>junit-bom</artifactId>
+				<version>5.7.1</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.mapstruct.tools.gem</groupId>
+				<artifactId>gem-api</artifactId>
+				<version>${tools.gem.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.apache.commons</groupId>
+				<artifactId>commons-lang3</artifactId>
+				<version>3.9</version>
+			</dependency>
+			<dependency>
+				<groupId>com.google.auto.service</groupId>
+				<artifactId>auto-service</artifactId>
+				<version>1.0-rc6</version>
+			</dependency>
+			<dependency>
+				<groupId>com.google.testing.compile</groupId>
+				<artifactId>compile-testing</artifactId>
+				<version>0.19</version>
+			</dependency>
+			<dependency>
+				<groupId>com.squareup</groupId>
+				<artifactId>javapoet</artifactId>
+				<version>1.11.1</version>
+			</dependency>
+			<dependency>
+				<groupId>org.infinitenature</groupId>
+				<artifactId>commons-pagination</artifactId>
+				<version>0.0.6</version>
+			</dependency>
+			<dependency>
+				<groupId>net.vergien.bau</groupId>
+				<artifactId>bean-auto-utils-annotations</artifactId>
+				<version>${bean-auto-utils.version}</version>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
-
+	<build>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<artifactId>maven-compiler-plugin</artifactId>
+					<version>3.8.1</version>
+				</plugin>
+				<plugin>
+					<artifactId>maven-surefire-plugin</artifactId>
+					<version>2.22.2</version>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+	</build>
 	<profiles>
 		<profile>
 			<id>release</id>

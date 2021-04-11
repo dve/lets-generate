@@ -1,17 +1,15 @@
 /**
  * Copyright © 2019 Daniel Nordhoff-Vergien (dve@vergien.net)
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 package de.generator.beans.vaadin;
 
@@ -26,15 +24,16 @@ import org.infinitenature.commons.pagination.OffsetRequest;
 import org.infinitenature.commons.pagination.Slice;
 import org.infinitenature.commons.pagination.SortOrder;
 import org.infinitenature.commons.pagination.impl.SliceImpl;
-import org.rapidpm.dependencies.core.logger.HasLogger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import de.generator.beans.Contract;
 import de.generator.beans.filter.ContractFilter;
 import de.generator.beans.filter.ContractSortFields;
 import de.generator.beans.repo.ContractBaseQueries;
 
-public class ContractQueries implements ContractBaseQueries, HasLogger {
+public class ContractQueries implements ContractBaseQueries {
   public static final Collection<Contract> CONTRACTS;
-
+  private static final Logger LOGGER = LoggerFactory.getLogger(ContractQueries.class);
   static {
     Set<Contract> c = new HashSet<>();
     c.add(new Contract(1, "First Contract", null));
@@ -45,7 +44,7 @@ public class ContractQueries implements ContractBaseQueries, HasLogger {
   @Override
   public Slice<Contract, ContractSortFields> find(ContractFilter filter,
       OffsetRequest<ContractSortFields> offsetRequest) {
-    logger().info("find({}, {})", filter, offsetRequest);
+    LOGGER.info("find({}, {})", filter, offsetRequest);
     Stream<Contract> stream = filter(CONTRACTS.stream(), filter);
     SortOrder sortOrder = offsetRequest.getSortOrder();
     switch (offsetRequest.getSortField()) {
@@ -80,7 +79,7 @@ public class ContractQueries implements ContractBaseQueries, HasLogger {
 
   @Override
   public long count(ContractFilter filter) {
-    logger().info("count({})", filter);
+    LOGGER.info("count({})", filter);
     return filter(CONTRACTS.stream(), filter).count();
   }
 

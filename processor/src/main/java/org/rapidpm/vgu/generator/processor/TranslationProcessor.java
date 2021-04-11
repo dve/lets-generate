@@ -37,7 +37,6 @@ import javax.tools.Diagnostic.Kind;
 import javax.tools.FileObject;
 import javax.tools.JavaFileManager.Location;
 import javax.tools.StandardLocation;
-import org.rapidpm.dependencies.core.logger.HasLogger;
 import org.rapidpm.vgu.generator.annotation.DataBean;
 import org.rapidpm.vgu.generator.model.DataBeanModel;
 import com.google.auto.service.AutoService;
@@ -45,7 +44,7 @@ import com.google.auto.service.AutoService;
 @SupportedSourceVersion(SourceVersion.RELEASE_8)
 @AutoService(Processor.class)
 @SupportedOptions({"debug"})
-public class TranslationProcessor extends AbstractDataBeanProcessor implements HasLogger {
+public class TranslationProcessor extends AbstractDataBeanProcessor  {
 
   private static final Location OUTPUT = StandardLocation.SOURCE_OUTPUT;
   private Map<String, String> translations = new TreeMap<>();
@@ -62,7 +61,6 @@ public class TranslationProcessor extends AbstractDataBeanProcessor implements H
 
   @Override
   public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
-    logger().info("TranslationProcessor");
     try {
       return processImpl(annotations, roundEnv);
     } catch (Exception e) {

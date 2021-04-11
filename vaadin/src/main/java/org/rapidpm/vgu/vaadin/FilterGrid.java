@@ -16,7 +16,6 @@
 package org.rapidpm.vgu.vaadin;
 
 import java.util.Objects;
-import org.rapidpm.dependencies.core.logger.HasLogger;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.HasSize;
 import com.vaadin.flow.component.HasValue;
@@ -30,7 +29,7 @@ import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.function.SerializableConsumer;
 import com.vaadin.flow.function.ValueProvider;
 
-public class FilterGrid<T, F> extends Grid<T> implements HasLogger {
+public class FilterGrid<T, F> extends Grid<T>  {
   @FunctionalInterface
   public static interface FilterBuilder<F> {
     F buildFilter();

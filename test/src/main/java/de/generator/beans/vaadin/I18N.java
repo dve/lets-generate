@@ -19,12 +19,14 @@ import java.util.List;
 import java.util.Locale;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
-import org.rapidpm.dependencies.core.logger.HasLogger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import com.vaadin.flow.i18n.I18NProvider;
 
-public class I18N implements I18NProvider, HasLogger {
+public class I18N implements I18NProvider {
 
   private static final String BUNDLE_NAME = "Translation";
+  private static final Logger LOGGER = LoggerFactory.getLogger(I18N.class);
 
   @Override
   public List<Locale> getProvidedLocales() {
@@ -45,7 +47,7 @@ public class I18N implements I18NProvider, HasLogger {
   }
 
   private String defaultString(String key, Locale locale) {
-    logger().severe(
+    LOGGER.error(
         "The key \"" + key + "\" is not in the resource bundel for the locale \"" + locale + "\".");
     return '!' + key + '!';
   }

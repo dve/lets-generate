@@ -1,17 +1,15 @@
 /**
  * Copyright © 2019 Daniel Nordhoff-Vergien (dve@vergien.net)
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 package org.rapidpm.vgu.generator.processor;
 
@@ -41,7 +39,6 @@ import com.google.auto.service.AutoService;
 @SupportedSourceVersion(SourceVersion.RELEASE_8)
 @AutoService(Processor.class)
 public class VaadinDataBeanAnnotationProcessor extends AbstractDataBeanProcessor {
-
   private CodeGenerator[] generators =
       {new VaadinDataProviderGenerator(), new StringFilterDataProviderGenerator(),
           new VaadinFormGenerator(), new VaadinComboBoxGenerator(),
@@ -56,8 +53,8 @@ public class VaadinDataBeanAnnotationProcessor extends AbstractDataBeanProcessor
           for (Element e : annotatedElements) {
 
             TypeElement typeElement = (TypeElement) e;
-            VaadinDataBeansPrism prisim = VaadinDataBeansPrism.getInstanceOn(typeElement);
-            List<TypeMirror> mirrors = prisim.value();
+            VaadinDataBeansGem prisim = VaadinDataBeansGem.instanceOn(typeElement);
+            List<TypeMirror> mirrors = prisim.value().get();
             for (TypeMirror typeMirror : mirrors) {
               Element ee = processingEnv.getTypeUtils().asElement(typeMirror);
               DataBeanModel model = process((TypeElement) ee);

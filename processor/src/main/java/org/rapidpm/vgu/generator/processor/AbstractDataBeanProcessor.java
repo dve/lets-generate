@@ -46,9 +46,9 @@ public abstract class AbstractDataBeanProcessor extends AbstractProcessor {
   public DataBeanModel process(TypeElement typeElement) {
     processingEnv.getMessager().printMessage(Kind.WARNING,
         "Proccesing " + typeElement.getSimpleName(), typeElement);
-    DataBeanPrism displayBeanPrisim = DataBeanPrism.getInstanceOn(typeElement);
+    DataBeanGem displayBeanPrisim = DataBeanGem.instanceOn(typeElement);
     DataBeanModel dataBeanModel = new DataBeanModel(typeElement);
-    dataBeanModel.setModelType(DataBeanType.valueOf(displayBeanPrisim.type()));
+    dataBeanModel.setModelType(DataBeanType.valueOf(displayBeanPrisim.type().get()));
     dataBeanModel.setProperties(extractPropertyModel(typeElement, e -> true));
 
     dataBeanModel.setCaptionMethod(getCaptionMethod(typeElement));
@@ -72,20 +72,20 @@ public abstract class AbstractDataBeanProcessor extends AbstractProcessor {
     return dataBeanModel;
   }
 
-  private void handleSortProperties(TypeElement typeElement, DataBeanPrism displayBeanPrisim,
+  private void handleSortProperties(TypeElement typeElement, DataBeanGem displayBeanPrisim,
       DataBeanModel dataBeanModel) {
     List<PropertyModel> defaultSortCandidates = new ArrayList<>();
     dataBeanModel.getSortProperties()
-        .addAll(displayBeanPrisim.customFilters().stream().filter(cfPrism -> cfPrism.sort())
-            .map(cfPrism -> new PropertyModel(cfPrism.name(), cfPrism.type()))
+        .addAll(displayBeanPrisim.customFilters().get().stream().filter(cfGem -> cfGem.sort().get())
+            .map(cfGem -> new PropertyModel(cfGem.name().get(), cfGem.type().get()))
             .collect(Collectors.toSet()));
 
     Set<PropertyModel> sortProperties = exctractPropertyModel(typeElement, SortProperty.class);
 
     for (PropertyModel propertyModel1 : sortProperties) {
-      SortPropertyPrism ssp =
-          SortPropertyPrism.getInstanceOn(propertyModel1.getVariableElement().get());
-      if (Boolean.TRUE.equals(ssp.defaultSort())) {
+      SortPropertyGem ssp =
+          SortPropertyGem.instanceOn(propertyModel1.getVariableElement().get());
+      if (Boolean.TRUE.equals(ssp.defaultSort().get())) {
         defaultSortCandidates.add(propertyModel1);
       }
     }
@@ -103,23 +103,23 @@ public abstract class AbstractDataBeanProcessor extends AbstractProcessor {
     }
   }
 
-  private void handleFilterProperties(TypeElement typeElement, DataBeanPrism displayBeanPrisim,
+  private void handleFilterProperties(TypeElement typeElement, DataBeanGem displayBeanPrisim,
       DataBeanModel dataBeanModel) {
     List<PropertyModel> defaultFilterCandidates = new ArrayList<>();
 
     dataBeanModel.getFilterProperties()
-        .addAll(displayBeanPrisim.customFilters().stream().map(cfPrism -> {
-          PropertyModel propertyModel = new PropertyModel(cfPrism.name(), cfPrism.type());
-          if (Boolean.TRUE.equals(cfPrism.defaultFilter())) {
+        .addAll(displayBeanPrisim.customFilters().get().stream().map(cfGem -> {
+          PropertyModel propertyModel = new PropertyModel(cfGem.name().get(), cfGem.type().get());
+          if (Boolean.TRUE.equals(cfGem.defaultFilter().get())) {
             defaultFilterCandidates.add(propertyModel);
           }
           return propertyModel;
         }).collect(Collectors.toSet()));
     Set<PropertyModel> filterProperties = exctractPropertyModel(typeElement, FilterProperty.class);
     for (PropertyModel propertyModel : filterProperties) {
-      FilterPropertyPrism fpp =
-          FilterPropertyPrism.getInstanceOn(propertyModel.getVariableElement().get());
-      if (Boolean.TRUE.equals(fpp.defaultFilter())) {
+      FilterPropertyGem fpp =
+          FilterPropertyGem.instanceOn(propertyModel.getVariableElement().get());
+      if (Boolean.TRUE.equals(fpp.defaultFilter().get())) {
         defaultFilterCandidates.add(propertyModel);
       }
     }
@@ -161,9 +161,9 @@ public abstract class AbstractDataBeanProcessor extends AbstractProcessor {
   private void setDefaultFilter(TypeElement typeElement, DataBeanModel dataBeanModel) {
     List<PropertyModel> defaultSortCandidates = new ArrayList<>();
     for (PropertyModel propertyModel : dataBeanModel.getSortProperties()) {
-      SortPropertyPrism ssp =
-          SortPropertyPrism.getInstanceOn(propertyModel.getVariableElement().get());
-      if (Boolean.TRUE.equals(ssp.defaultSort())) {
+      SortPropertyGem ssp =
+          SortPropertyGem.instanceOn(propertyModel.getVariableElement().get());
+      if (Boolean.TRUE.equals(ssp.defaultSort().get())) {
         defaultSortCandidates.add(propertyModel);
       }
     }
@@ -256,6 +256,9 @@ public abstract class AbstractDataBeanProcessor extends AbstractProcessor {
 
   protected void info(String msg, Element e) {
     processingEnv.getMessager().printMessage(Diagnostic.Kind.NOTE, msg, e);
+  }
+  protected APLogger logger() {
+    return new APLogger(processingEnv);
   }
 
   public abstract void write(TypeElement typeElement, DataBeanModel dataBeanModel);

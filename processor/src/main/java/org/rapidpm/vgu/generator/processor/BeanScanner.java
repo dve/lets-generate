@@ -44,8 +44,8 @@ public class BeanScanner extends ElementScanner8<Void, DataBeanModel> {
     }
 
     if (e.getKind() == ElementKind.FIELD) {
-      FilterPropertyPrism displayPropertyPrism = FilterPropertyPrism.getInstanceOn(e);
-      if (displayPropertyPrism != null) {
+      FilterPropertyGem displayPropertyGem = FilterPropertyGem.instanceOn(e);
+      if (displayPropertyGem != null) {
         String propertyClassName;
         if (e.asType().getKind().isPrimitive()) {
           PrimitiveType pt =
@@ -61,7 +61,7 @@ public class BeanScanner extends ElementScanner8<Void, DataBeanModel> {
     return super.visitVariable(e, p);
   }
 
-  private void createPropertyDescriptions(DataBeanModel p, FilterPropertyPrism displayPropertyPrism,
+  private void createPropertyDescriptions(DataBeanModel p, FilterPropertyGem displayPropertyGem,
       String propertyClassName, String propertyName) {
     System.out.println("bla");
   }
