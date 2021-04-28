@@ -30,6 +30,7 @@ import org.rapidpm.vgu.generator.codegenerator.ClassNameUtils;
 import org.rapidpm.vgu.generator.codegenerator.JPoetUtils;
 import org.rapidpm.vgu.generator.model.DataBeanModel;
 import org.rapidpm.vgu.generator.model.PropertyModel;
+import com.squareup.javapoet.AnnotationSpec;
 import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.FieldSpec;
 import com.squareup.javapoet.MethodSpec;
@@ -87,7 +88,25 @@ public class VaadinFormGenerator extends AbstractVaadinCodeGenerator {
       formClassBuilder.addMethod(createDepenedDataBeanSetBaseQueries(type,
           dependendDataBeans.get(type), pro -> fieldName(pro)));
     }
+    formClassBuilder.addMethod(createReadOnly(model.getProperties()));
     writeClass(processingEnvironment.getFiler(), model, formClassBuilder.build());
+  }
+
+  private MethodSpec createReadOnly(List<PropertyModel> propertyModels) {
+    MethodSpec.Builder builder = MethodSpec.methodBuilder("setReadOnly").
+        addModifiers(PUBLIC).
+        addParameter(ParameterSpec.builder(TypeName.BOOLEAN, "readOnly").build()).
+        addAnnotation(Override.class).
+        addStatement("super.setReadOnly(readOnly)").
+        addStatement("cancelButton.setEnabled(!readOnly)").
+        addStatement("submitButton.setEnabled(!readOnly)").
+        addStatement("resetButton.setEnabled(!readOnly)");
+    
+    for (PropertyModel propertyModel : propertyModels) {
+      String fieldName = fieldName(propertyModel);
+      builder.addStatement(fieldName + ".setReadOnly(readOnly)");
+    }
+    return builder.build();
   }
 
   private MethodSpec createDepenedDataBeanSetBaseQueries(TypeMirror type,
