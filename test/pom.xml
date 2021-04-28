@@ -39,7 +39,6 @@
 		<dependency>
 			<groupId>net.vergien.bau</groupId>
 			<artifactId>bean-auto-utils-annotations</artifactId>
-			<version>${bean-auto-utils.version}</version>
 		</dependency>
 		<!--Vaadin -->
 		<dependency>
